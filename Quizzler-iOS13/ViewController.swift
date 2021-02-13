@@ -15,15 +15,31 @@ class ViewController: UIViewController {
     @IBOutlet weak var trueButton: UIButton!
     @IBOutlet weak var falseButton: UIButton!
     
+    let questions = [
+        "Kobe Bryant wore number 23 his rookie year in the NBA.",
+        "Barack Obama was the 44th President of the United States.",
+        "Netflix was founded by Warren Buffett."
+    ]
+    
+    var questionPosition = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        nextQuestion()
     }
     
     
     @IBAction func answerButtonPressed(_ sender: UIButton) {
+        questionPosition += 1
+        if (questionPosition < questions.count){
+            nextQuestion()
+        }
         
+    }
+    
+    func nextQuestion(){
+        questionLabel.text = questions[questionPosition]
     }
     
 
