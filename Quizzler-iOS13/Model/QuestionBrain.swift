@@ -26,14 +26,7 @@ struct QuestionBrain {
     ]
     
     var questionPosition = 0
-    
-    func checkAnswer(_ userAnswer: String) -> Bool{
-        if userAnswer == questions[questionPosition].answer {
-            return true
-        } else {
-            return false
-        }
-    }
+    var score = 0
     
     func getQuestionText() -> String {
         return questions[questionPosition].text
@@ -43,12 +36,26 @@ struct QuestionBrain {
         return Float(questionPosition + 1) / Float(questions.count)
     }
     
+    func getScore() -> Int {
+        return score
+    }
+    
     //will replace the old value of questionPosition with a new value
     mutating func nextQuestion(){
         if (questionPosition + 1 < questions.count){
             questionPosition += 1
         } else if questionPosition == questions.count - 1{
             questionPosition = 0
+            score = 0
+        }
+    }
+    
+    mutating func checkAnswer(_ userAnswer: String) -> Bool{
+        if userAnswer == questions[questionPosition].answer {
+            score += 1
+            return true
+        } else {
+            return false
         }
     }
 }
