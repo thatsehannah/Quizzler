@@ -36,7 +36,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        nextQuestion()
+        progressBar.progress = 0.0
+        updateUI()
     }
     
     
@@ -56,13 +57,15 @@ class ViewController: UIViewController {
             questionPosition = 0
         }
         
-        nextQuestion()
+        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false )
+        
     }
     
-    func nextQuestion(){
+    @objc func updateUI(){
         questionLabel.text = questions[questionPosition].text
         trueButton.backgroundColor = UIColor.clear
         falseButton.backgroundColor = UIColor.clear
+        progressBar.progress = Float(questionPosition + 1) / Float(questions.count)
     }
     
     
