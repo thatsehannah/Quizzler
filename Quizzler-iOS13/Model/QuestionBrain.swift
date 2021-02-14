@@ -1,20 +1,14 @@
 //
-//  ViewController.swift
+//  QuestionBrain.swift
 //  Quizzler-iOS13
 //
-//  Created by Angela Yu on 12/07/2019.
-//  Copyright © 2019 The App Brewery. All rights reserved.
+//  Created by Elliot Hannah III on 2/14/21.
+//  Copyright © 2021 The App Brewery. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-class ViewController: UIViewController {
-    
-    @IBOutlet weak var questionLabel: UILabel!
-    @IBOutlet weak var progressBar: UIProgressView!
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var falseButton: UIButton!
-    
+struct QuestionBrain {
     let questions = [
         Question(q: "A slug's blood is green.", a: "True"),
         Question(q: "Approximately one quarter of human bones are in the feet.", a: "True"),
@@ -33,43 +27,28 @@ class ViewController: UIViewController {
     
     var questionPosition = 0
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        progressBar.progress = 0.0
-        updateUI()
+    func checkAnswer(_ userAnswer: String) -> Bool{
+        if userAnswer == questions[questionPosition].answer {
+            return true
+        } else {
+            return false
+        }
     }
     
+    func getQuestionText() -> String {
+        return questions[questionPosition].text
+    }
     
-    @IBAction func answerButtonPressed(_ sender: UIButton) {
-        let userAnswer = sender.currentTitle!
-        let questionAnswer = questions[questionPosition].answer
-        
-        if (userAnswer == questionAnswer){
-            sender.backgroundColor = UIColor.green
-        } else {
-            sender.backgroundColor = UIColor.red
-        }
-        
+    func getProgress() -> Float {
+        return Float(questionPosition + 1) / Float(questions.count)
+    }
+    
+    //will replace the old value of questionPosition with a new value
+    mutating func nextQuestion(){
         if (questionPosition + 1 < questions.count){
             questionPosition += 1
         } else if questionPosition == questions.count - 1{
             questionPosition = 0
         }
-        
-        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false )
-        
     }
-    
-    @objc func updateUI(){
-        questionLabel.text = questions[questionPosition].text
-        trueButton.backgroundColor = UIColor.clear
-        falseButton.backgroundColor = UIColor.clear
-        progressBar.progress = Float(questionPosition + 1) / Float(questions.count)
-    }
-    
-    
-    
-
 }
-
